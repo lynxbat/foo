@@ -71,7 +71,7 @@ type managesPlugins interface {
 	teardown()
 	get(string) (*loadedPlugin, error)
 	all() map[string]*loadedPlugin
-	LoadPlugin(string, gomit.Emitter) (*loadedPlugin, perror.PulseError)
+	LoadPlugin(string, map[string]ctypes.ConfigValue, gomit.Emitter) (*loadedPlugin, perror.PulseError)
 	UnloadPlugin(core.Plugin) (*loadedPlugin, perror.PulseError)
 	SetMetricCatalog(catalogsMetrics)
 	GenerateArgs(pluginPath string) plugin.Arg
@@ -181,6 +181,10 @@ func (p *pluginControl) Stop() {
 // the LoadedPlugins array and issue an event when
 // successful.
 func (p *pluginControl) Load(path string) (core.CatalogedPlugin, perror.PulseError) {
+	// TODO - replace with public interface input
+	config := make(map[string]ctypes.ConfigValue)
+	//
+
 	f := map[string]interface{}{
 		"_block": "load",
 		"path":   path,
@@ -195,7 +199,7 @@ func (p *pluginControl) Load(path string) (core.CatalogedPlugin, perror.PulseErr
 		return nil, pe
 	}
 
-	pl, err := p.pluginManager.LoadPlugin(path, p.eventManager)
+	pl, err := p.pluginManager.LoadPlugin(path, config, p.eventManager)
 	if err != nil {
 		return nil, err
 	}
@@ -226,8 +230,11 @@ func (p *pluginControl) Unload(pl core.Plugin) (core.CatalogedPlugin, perror.Pul
 }
 
 func (p *pluginControl) SwapPlugins(inPath string, out core.CatalogedPlugin) perror.PulseError {
+	// TODO - replace with public interface input
+	config := make(map[string]ctypes.ConfigValue)
+	//
 
-	lp, err := p.pluginManager.LoadPlugin(inPath, p.eventManager)
+	lp, err := p.pluginManager.LoadPlugin(inPath, config, p.eventManager)
 	if err != nil {
 		return err
 	}

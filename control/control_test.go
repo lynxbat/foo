@@ -38,7 +38,7 @@ type MockPluginManagerBadSwap struct {
 	loadedPlugins  *loadedPlugins
 }
 
-func (m *MockPluginManagerBadSwap) LoadPlugin(string, gomit.Emitter) (*loadedPlugin, perror.PulseError) {
+func (m *MockPluginManagerBadSwap) LoadPlugin(string, map[string]ctypes.ConfigValue, gomit.Emitter) (*loadedPlugin, perror.PulseError) {
 	return new(loadedPlugin), nil
 }
 func (m *MockPluginManagerBadSwap) UnloadPlugin(c core.Plugin) (*loadedPlugin, perror.PulseError) {

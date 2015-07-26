@@ -10,6 +10,7 @@ import (
 	. "github.com/smartystreets/goconvey/convey"
 
 	"github.com/intelsdi-x/pulse/control/plugin"
+	"github.com/intelsdi-x/pulse/core/ctypes"
 )
 
 var (
@@ -58,8 +59,11 @@ func TestLoadPlugin(t *testing.T) {
 
 			Convey("loads plugin successfully", func() {
 				p := newPluginManager()
+				// TODO - replace with public interface input
+				config := make(map[string]ctypes.ConfigValue)
+				//
 				p.SetMetricCatalog(newMetricCatalog())
-				lp, err := p.LoadPlugin(PluginPath, nil)
+				lp, err := p.LoadPlugin(PluginPath, config, nil)
 
 				So(lp, ShouldHaveSameTypeAs, new(loadedPlugin))
 				So(p.all(), ShouldNotBeEmpty)
@@ -69,7 +73,10 @@ func TestLoadPlugin(t *testing.T) {
 
 			Convey("error is returned on a bad PluginPath", func() {
 				p := newPluginManager()
-				lp, err := p.LoadPlugin("", nil)
+				// TODO - replace with public interface input
+				config := make(map[string]ctypes.ConfigValue)
+				//
+				lp, err := p.LoadPlugin("", config, nil)
 
 				So(lp, ShouldBeNil)
 				So(err, ShouldNotBeNil)
@@ -87,8 +94,11 @@ func TestUnloadPlugin(t *testing.T) {
 			Convey("when a loaded plugin is unloaded", func() {
 				Convey("then it is removed from the loadedPlugins", func() {
 					p := newPluginManager()
+					// TODO - replace with public interface input
+					config := make(map[string]ctypes.ConfigValue)
+					//
 					p.SetMetricCatalog(newMetricCatalog())
-					_, err := p.LoadPlugin(PluginPath, nil)
+					_, err := p.LoadPlugin(PluginPath, config, nil)
 					So(err, ShouldBeNil)
 
 					numPluginsLoaded := len(p.all())
@@ -104,8 +114,11 @@ func TestUnloadPlugin(t *testing.T) {
 			Convey("when a loaded plugin is not in a PluginLoaded state", func() {
 				Convey("then an error is thrown", func() {
 					p := newPluginManager()
+					// TODO - replace with public interface input
+					config := make(map[string]ctypes.ConfigValue)
+					//
 					p.SetMetricCatalog(newMetricCatalog())
-					lp, err := p.LoadPlugin(PluginPath, nil)
+					lp, err := p.LoadPlugin(PluginPath, config, nil)
 					glp, err2 := p.get("collector:dummy1:1")
 					So(err2, ShouldBeNil)
 					glp.State = DetectedState
@@ -117,8 +130,11 @@ func TestUnloadPlugin(t *testing.T) {
 			Convey("when a plugin is already unloaded", func() {
 				Convey("then an error is thrown", func() {
 					p := newPluginManager()
+					// TODO - replace with public interface input
+					config := make(map[string]ctypes.ConfigValue)
+					//
 					p.SetMetricCatalog(newMetricCatalog())
-					_, err := p.LoadPlugin(PluginPath, nil)
+					_, err := p.LoadPlugin(PluginPath, config, nil)
 
 					lp, err2 := p.get("collector:dummy1:1")
 					So(err2, ShouldBeNil)

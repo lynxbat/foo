@@ -20,6 +20,7 @@ import (
 	"github.com/intelsdi-x/pulse/control/plugin/client"
 	"github.com/intelsdi-x/pulse/control/plugin/cpolicy"
 	"github.com/intelsdi-x/pulse/core"
+	"github.com/intelsdi-x/pulse/core/ctypes"
 	"github.com/intelsdi-x/pulse/core/perror"
 )
 
@@ -195,7 +196,7 @@ func (p *pluginManager) SetMetricCatalog(mc catalogsMetrics) {
 
 // Load is the method for loading a plugin and
 // saving plugin into the LoadedPlugins array
-func (p *pluginManager) LoadPlugin(path string, emitter gomit.Emitter) (*loadedPlugin, perror.PulseError) {
+func (p *pluginManager) LoadPlugin(path string, config map[string]ctypes.ConfigValue, emitter gomit.Emitter) (*loadedPlugin, perror.PulseError) {
 	lPlugin := new(loadedPlugin)
 	lPlugin.Path = path
 	lPlugin.State = DetectedState

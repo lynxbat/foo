@@ -1,13 +1,14 @@
 package plugin
 
-// WARNING! Do not import "fmt" and print from a plugin to stdout!
 import (
 	"crypto/rsa"
-	"fmt" // Don't use "fmt.Print*"
+	"fmt" // Don't use "fmt.Print* in this source"
 	"log"
 	"regexp"
 	"runtime"
 	"time"
+
+	"github.com/intelsdi-x/pulse/control/plugin/cpolicy"
 )
 
 // Plugin type
@@ -62,6 +63,11 @@ type PluginMeta struct {
 	// Return content types in priority order
 	// This is only really valid on processors
 	ReturnedContentTypes []string
+	// Configuration policy for running a plugin
+	// This config policy is global for all running instances of the plugin
+	// Setting this policy prevents the loading of this plugin unless it is
+	// satified
+	PluginConfigPolicy *cpolicy.ConfigPolicyNode
 }
 
 // NewPluginMeta constructs and returns a PluginMeta struct
@@ -96,6 +102,8 @@ func NewPluginMeta(name string, version int, pluginType PluginType, acceptConten
 		Type:                 pluginType,
 		AcceptedContentTypes: acceptContentTypes,
 		ReturnedContentTypes: returnContentTypes,
+		// We init a new config policy. The plugin author can add rules
+		PluginConfigPolicy: cpolicy.NewPolicyNode(),
 	}
 }
 
