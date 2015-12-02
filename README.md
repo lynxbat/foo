@@ -47,6 +47,10 @@ limitations under the License.
 * Operate as an analytics platform. The intention is to allow plugins for feeding those platforms.
 * Compete with existing metric/monitoring/telemetry agents. It is simply a new option to use or reference.
 
+Here are some blog posts related to ***Pulse*** by the team:
+
+* Nickapedia.com - [What if collecting data center telemetry was a snap?](http://nickapedia.com/2015/12/02/what-if-collecting-data-center-telemetry-was-a-snap/)
+
 **Pulse** needs:
 
 * _Feedback_: try it and tell us about it.
